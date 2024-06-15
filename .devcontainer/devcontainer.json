@@ -9,6 +9,11 @@
   "postAttachCommand": {
     "server": "npm start"
   },
+  "features": {
+    "ghcr.io/dapr/cli/dapr-cli": true,
+    "ghcr.io/devcontainers-contrib/features/fd": true,
+    "ghcr.io/prulloac/devcontainer-features/bun": true
+  },
   "customizations": {
     "codespaces": {
       "openFiles": [
@@ -22,5 +27,7 @@
       "onAutoForward": "openPreview"
     }
   },
-  "forwardPorts": [3000]
+  "forwardPorts": [
+    3000
+  ]
 }
