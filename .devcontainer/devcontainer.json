@@ -5,19 +5,16 @@
   },
   "waitFor": "onCreateCommand",
   "updateContentCommand": "npm install",
-  "postCreateCommand": "",
-  "postAttachCommand": {
-    "server": "npm start"
-  },
+  "postCreateCommand": "bash .devcontainer/install.sh",
   "features": {
-    "ghcr.io/dapr/cli/dapr-cli": true,
-    "ghcr.io/devcontainers-contrib/features/fd": true,
-    "ghcr.io/prulloac/devcontainer-features/bun": true
+    "ghcr.io/dapr/cli/dapr-cli": { "version": "latest" },
+    "ghcr.io/devcontainers-contrib/features/fd": { "version": "latest" },
+    "ghcr.io/prulloac/devcontainer-features/bun": { "version": "latest" }
   },
   "customizations": {
     "codespaces": {
       "openFiles": [
-        "index.js"
+        "src/index.ts"
       ]
     }
   },
@@ -27,7 +24,5 @@
       "onAutoForward": "openPreview"
     }
   },
-  "forwardPorts": [
-    3000
-  ]
+  "forwardPorts": [ 3000 ]
 }
