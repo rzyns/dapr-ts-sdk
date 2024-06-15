@@ -4,7 +4,7 @@
     "cpus": 4
   },
   "waitFor": "onCreateCommand",
-  "updateContentCommand": "npm install",
+  "updateContentCommand": "pnpm install",
   "postCreateCommand": "bash .devcontainer/install.sh",
   "features": {
     "ghcr.io/dapr/cli/dapr-cli": { "version": "latest" },

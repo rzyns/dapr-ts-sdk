@@ -3,6 +3,7 @@
     "start": "nodemon index.js"
   },
   "type": "module",
+  "packageManager": "pnpm@9.1.4",
   "dependencies": {
     "long": "^5.2.3",
     "nice-grpc": "^2.1.9",
