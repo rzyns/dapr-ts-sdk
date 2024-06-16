@@ -20,7 +20,14 @@
     },
     "customizations": {
         "codespaces": {
-            "openFiles": [ "src/index.ts" ]
+            "openFiles": [ "src/index.ts" ],
+            "repositories": {
+                "rzyns/dotfiles": {
+                    "permissions": {
+                        "contents": "write"
+                    }
+                }
+            }
         }
     },
     "portsAttributes": {
