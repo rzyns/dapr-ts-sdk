@@ -1,28 +1,30 @@
 {
-  "image": "mcr.microsoft.com/devcontainers/universal:2",
-  "hostRequirements": {
-    "cpus": 4
-  },
-  "waitFor": "onCreateCommand",
-  "updateContentCommand": "pnpm install",
-  "postCreateCommand": "bash .devcontainer/install.sh",
-  "features": {
-    "ghcr.io/dapr/cli/dapr-cli": { "version": "latest" },
-    "ghcr.io/devcontainers-contrib/features/fd": { "version": "latest" },
-    "ghcr.io/prulloac/devcontainer-features/bun": { "version": "latest" }
-  },
-  "customizations": {
-    "codespaces": {
-      "openFiles": [
-        "src/index.ts"
-      ]
-    }
-  },
-  "portsAttributes": {
-    "3000": {
-      "label": "Application",
-      "onAutoForward": "openPreview"
-    }
-  },
-  "forwardPorts": [ 3000 ]
+    "image": "mcr.microsoft.com/devcontainers/universal:2",
+    "hostRequirements": {
+        "cpus": 4
+    },
+    "waitFor": "onCreateCommand",
+    "updateContentCommand": "pnpm install",
+    "postCreateCommand": "bash .devcontainer/install.sh",
+    "features": {
+        "ghcr.io/dapr/cli/dapr-cli": { "version": "latest" },
+        "ghcr.io/devcontainers-contrib/features/fd": { "version": "latest" },
+        "ghcr.io/prulloac/devcontainer-features/bun": { "version": "latest" },
+        "ghcr.io/meaningful-ooo/devcontainer-features/homebrew": { "version": "latest" },
+        "ghcr.io/devcontainers-contrib/features/neovim-homebrew": { "version": "latest" },
+        "ghcr.io/devcontainers-contrib/features/homebrew-package": {
+            "version": "latest",
+            "package": "eza"
+        },
+        "ghcr.io/rio/features/chezmoi": { "version": "latest" }
+    },
+    "customizations": {
+        "codespaces": {
+            "openFiles": [ "src/index.ts" ]
+        }
+    },
+    "portsAttributes": {
+        "3000": { "label": "Application", "onAutoForward": "openPreview" }
+    },
+    "forwardPorts": [ 3000 ]
 }

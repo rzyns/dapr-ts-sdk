@@ -8,7 +8,14 @@
   "license": "MIT",
   "type": "module",
   "packageManager": "pnpm@9.1.4",
+  "scripts": {
+    "build": "tsc"
+  },
   "dependencies": {
+    "@effect/cli": "^0.36.45",
+    "@effect/platform-node": "^0.51.10",
+    "@effect/schema": "^0.67.23",
+    "effect": "^3.3.2",
     "long": "^5.2.3",
     "nice-grpc": "^2.1.9",
     "nice-grpc-common": "^2.0.2",
