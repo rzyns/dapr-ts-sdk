@@ -12,10 +12,16 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@effect/cli": "^0.36.45",
-    "@effect/platform-node": "^0.51.10",
-    "@effect/schema": "^0.67.23",
-    "effect": "^3.3.2",
+    "@effect/cli": "^0.36.47",
+    "@effect/platform": "^0.57.3",
+    "@effect/platform-node": "^0.51.12",
+    "@effect/printer": "^0.33.30",
+    "@effect/printer-ansi": "^0.33.30",
+    "@effect/rpc": "^0.30.47",
+    "@effect/schema": "^0.68.0",
+    "@effect/typeclass": "^0.24.30",
+    "effect": "^3.3.4",
+    "fast-check": "^3.19.0",
     "long": "^5.2.3",
     "nice-grpc": "^2.1.9",
     "nice-grpc-common": "^2.0.2",
@@ -29,7 +35,7 @@
     "express": "^4.19.2",
     "grpc-tools": "^1.12.4",
     "ts-proto": "^1.180.0",
-    "tsx": "^4.15.5",
+    "tsx": "^4.15.6",
     "typescript": "^5.4.5"
   }
 }

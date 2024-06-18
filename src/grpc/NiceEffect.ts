@@ -1,8 +1,4 @@
-import {
-    Context,
-    Data,
-    Effect,
-} from "effect";
+import { Context, Data, Effect, Layer } from "effect";
 import * as nice from "nice-grpc";
 import * as constants from "../constants.js";
 
@@ -131,3 +127,5 @@ export const DefaultImplementation: NiceEffectInterface = {
     createServer,
     waitForChannelReady,
 };
+
+export const NiceEffectLive = Layer.succeed(NiceEffect, NiceEffect.of(DefaultImplementation));
