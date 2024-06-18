@@ -3,7 +3,7 @@ import { DaprClient, DaprDefinition } from "../proto/dapr/proto/runtime/v1/dapr.
 import * as nice from "nice-grpc";
 import { Effect, Context, Layer, Stream } from "effect";
 import { NiceEffect } from "../grpc/NiceEffect.js";
-import ChannelService from "./ChannelService.js";
+import DaprGrpcChannelService from "./DaprGrpcChannelService.js";
 import { UnknownException } from "effect/Cause";
 
 type DC = {
@@ -58,7 +58,7 @@ export const DaprClientServiceLive = Layer.effect(
     DaprClientService,
     Effect.gen(function* ($) {
         const nice      = yield* NiceEffect;
-        const channel   = yield* ChannelService;
+        const channel   = yield* DaprGrpcChannelService;
         const rawClient = yield* nice.createClient(DaprDefinition, channel);
 
         return wrapClient(rawClient, DaprDefinition);
