@@ -2,66 +2,33 @@ import { PACKAGE_NAME } from "../constants.js";
 import { DaprClient, DaprDefinition } from "../proto/dapr/proto/runtime/v1/dapr.js";
 import * as nice from "nice-grpc";
 import { Effect, Context, Layer, Stream } from "effect";
-import { NiceEffect } from "../grpc/NiceEffect.js";
+import { EffectifyClient, NiceEffect } from "../grpc/NiceEffect.js";
 import DaprGrpcChannelService from "./DaprGrpcChannelService.js";
 import { UnknownException } from "effect/Cause";
 
-type DC = {
-    [K in keyof DaprClient]: (...args: Parameters<DaprClient[K]>) => Awaited<ReturnType<DaprClient[K]>> extends AsyncIterable<infer T>
-        ? Stream.Stream<T, nice.ClientError | UnknownException>
-        : Effect.Effect<Awaited<ReturnType<DaprClient[K]>>, nice.ClientError | UnknownException> 
-};
+// type DC = {
+//     [K in keyof DaprClient]: (...args: Parameters<DaprClient[K]>) => Awaited<ReturnType<DaprClient[K]>> extends AsyncIterable<infer T>
+//         ? Stream.Stream<T, nice.ClientError | UnknownException>
+//         : Effect.Effect<Awaited<ReturnType<DaprClient[K]>>, nice.ClientError | UnknownException> 
+// };
 
 export const Tag = Context.Tag(`${PACKAGE_NAME}/client/DaprClientService`)<
     DaprClientService,
-    EffectyClient<nice.Client<DaprDefinition>>
+    EffectifyClient<nice.Client<DaprDefinition>>
 >();
 
 export class DaprClientService extends Tag {}
 
 export default DaprClientService;
 
-type Effectify<T, E = never> = T extends (...args: infer A) => infer R ? (...args: A) => R extends AsyncIterable<infer S> ? Stream.Stream<S, nice.ClientError | UnknownException> : Effect.Effect<Awaited<R>, E> : T;
-type EffectyClient<Service extends nice.Client<any>> = {
-    [K in keyof Service]: Effectify<Service[K], nice.ClientError>;
-}
-
-function wrap<Fn extends (...args: any[]) => any>(fn: Fn): (...args: Parameters<Fn>) => Effect.Effect<Awaited<ReturnType<Fn>>, nice.ClientError | UnknownException> {
-    return (...args) => Effect.tryPromise({
-        try: () => fn(...args),
-        catch: (e) => e instanceof nice.ClientError ? e : new UnknownException({ cause: e }),
-    });
-}
-
-function wrapStream<A extends any[], B, Fn extends (...args: A) => AsyncIterable<B>>(fn: Fn): (...args: A) => Stream.Stream<B, nice.ClientError | UnknownException> {
-    return (...args: A) => Stream.fromAsyncIterable(fn(...args), (e) => e instanceof nice.ClientError ? e : new UnknownException({ cause: e }));
-}
-
-function wrapClient<Def extends nice.TsProtoServiceDefinition, Client extends nice.Client<Def>>(client: Client, definition: Def): EffectyClient<Client> {
-    return new Proxy(client, {
-        get(target, prop, receiver) {
-            if (typeof prop === "string") {
-                const fn = target[prop as keyof Client];
-                if (definition["methods"][prop]?.responseStream) {
-                    return wrapStream(fn as any);
-                } else if (typeof fn === "function") {
-                    return wrap(fn);
-                }
-            }
-
-            return Reflect.get(target, prop, receiver);
-        },
-    }) as any;
-}
-
 export const DaprClientServiceLive = Layer.effect(
     DaprClientService,
     Effect.gen(function* ($) {
         const nice      = yield* NiceEffect;
         const channel   = yield* DaprGrpcChannelService;
-        const rawClient = yield* nice.createClient(DaprDefinition, channel);
+        const client = yield* nice.createClient(DaprDefinition, channel);
 
-        return wrapClient(rawClient, DaprDefinition);
+        return client;
         // return {
         //     subscribeConfiguration: wrapStream(rawClient.subscribeConfiguration),
         //     subscribeConfigurationAlpha1: wrapStream(rawClient.subscribeConfigurationAlpha1),

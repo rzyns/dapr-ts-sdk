@@ -1,9 +1,9 @@
-import { Context, Effect, Layer } from "effect";
+import { Config, ConfigProvider, Context, Effect, Layer } from "effect";
 import { DaprDefinition } from "./proto/dapr/proto/runtime/v1/dapr.js";
 import { createChannel, createClient } from "nice-grpc";
 import DaprClientService, { DaprClientServiceLive } from "./client/DaprClientService.js";
 import { DefaultImplementation, NiceEffect, NiceEffectLive } from "./grpc/NiceEffect.js";
-import { ChannelServiceLive } from "./client/ChannelService.js";
+import { DaprGrpcChannelServiceLive } from "./client/DaprGrpcChannelService.js";
 
 const DAPR_GRPC_PORT = process.env["DAPR_GRPC_PORT"];
 if (DAPR_GRPC_PORT == null) {
@@ -37,6 +37,13 @@ const program = Effect.gen(function* () {
     console.log("result", result);
 });
 
-const runnable = Effect.provide(Effect.provide(Effect.provide(program, DaprClientServiceLive), ChannelServiceLive), NiceEffectLive);
+const MainLive = DaprClientServiceLive.pipe(
+    Layer.provideMerge(DaprGrpcChannelServiceLive),
+    Layer.provideMerge(NiceEffectLive),
+);
 
-await Effect.runPromise(runnable);
+const runnable = program.pipe(
+    Effect.provide(MainLive),
+)
+
+Effect.runPromise(runnable);

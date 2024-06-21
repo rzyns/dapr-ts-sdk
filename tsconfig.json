@@ -12,5 +12,6 @@
         "noUnusedLocals": false,
         "noUnusedParameters": false,
         "exactOptionalPropertyTypes": true,
+        "types": [ "vitest/importMeta" ],
     },
 }
