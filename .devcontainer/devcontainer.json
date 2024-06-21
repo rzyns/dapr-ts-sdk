@@ -38,6 +38,7 @@
                 "GitHub.copilot",
                 "GitHub.copilot-chat",
                 "ms-azuretools.vscode-dapr",
+                "ms-azuretools.vscode-docker",
                 "ms-kubernetes-tools.vscode-kubernetes-tools",
                 "pbkit.vscode-pbkit",
                 "redhat.vscode-yaml"
