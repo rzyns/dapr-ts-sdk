@@ -34,8 +34,12 @@ export function toImplementation<
     M extends Record<string, InvokeHandlerConfig<any, any, any, any>>
 >(a: AppConfig<B, T, M>): AppCallbackServiceImplementation {
     return {
-        listInputBindings: async (_req, ctx) => ({ bindings: Object.values(a.bindings).map((binding) => binding.name) }),
-        listTopicSubscriptions: async (_req, ctx) => ({ subscriptions: TopicEventHandlerConfig.configToSubscriptions(a.topics) }),
+        listInputBindings: async (_req, ctx) => ({
+            bindings: Object.values(a.bindings).map((binding) => binding.name),
+        }),
+        listTopicSubscriptions: async (_req, ctx) => ({
+            subscriptions: TopicEventHandlerConfig.configToSubscriptions(a.topics),
+        }),
         onBindingEvent: BindingEventHandlerConfig.toImplementation(a.bindings),
         onInvoke: InvokeConfig.toImplementation(a.methods),
         onTopicEvent: TopicEventHandlerConfig.toImplementation(a.topics),
@@ -50,24 +54,3 @@ export class AppCallbackService extends Context.Tag(`${PACKAGE_NAME}/app/AppCall
 export function make<A extends AppConfig<any, any, any>>(config: A): A {
     return config satisfies typeof config;
 }
-
-export const AppCallbackServiceLive = Layer.succeed(AppCallbackService, toImplementation({
-    bindings: {
-        foo: BindingEventHandlerConfig.make(
-            "mycron",
-            Schema.Uint8ArrayFromSelf,
-            (req, ctx) => Effect.succeed(BindingEventResponse.create({})),
-        )
-    },
-    methods: {},
-    topics: {},
-}));
-
-export class AppCallbackAlphaService extends Context.Tag(`${PACKAGE_NAME}/app/AppCallbackAlphaService`)<
-    AppCallbackAlphaService,
-    AppCallbackAlphaServiceImplementation
->() {}
-
-export const AppCallbackAlphaServiceLive = Layer.succeed(AppCallbackAlphaService, AppCallbackAlphaService.of({
-    onBulkTopicEventAlpha1: async (req, ctx) => ({ }),
-}));

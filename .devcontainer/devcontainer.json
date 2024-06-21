@@ -28,6 +28,16 @@
                     }
                 }
             }
+        },
+        "vscode": {
+            "extensions": [
+                "dbaeumer.vscode-eslint",
+                "dotenv.dotenv-vscode",
+                "EditorConfig.EditoConfig",
+                "esbenp.prettier-vscode",
+                "ms-azuretools.vscode-dapr",
+                "pbkit.vscode-pbkit"
+            ]
         }
     },
     "portsAttributes": {
