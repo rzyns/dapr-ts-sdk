@@ -8,8 +8,12 @@
 		"dotenv.dotenv-vscode",
 		"EditorConfig.EditoConfig",
 		"esbenp.prettier-vscode",
+		"GitHub.copilot",
+		"GitHub.copilot-chat",
 		"ms-azuretools.vscode-dapr",
-		"pbkit.vscode-pbkit"
+		"ms-kubernetes-tools.vscode-kubernetes-tools",
+		"pbkit.vscode-pbkit",
+		"redhat.vscode-yaml"
 	],
 	// List of extensions recommended by VS Code that should not be recommended for users of this workspace.
 	"unwantedRecommendations": [
